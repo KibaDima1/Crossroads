@@ -1,0 +1,10 @@
+# ninja log v6
+846	945	1725806076091902430	crossroads	a53e2ad7092aaa71
+21	846	1725806075267097224	CMakeFiles/crossroads.dir/app/main.cpp.o	da502e1f6d8de170
+21	89	1725806204103945275	build.ninja	91f765208aa10932
+3	21	1725806204004397000	/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/cmake.verify_globs	df6622cdc3a1c6d1
+22	131	1725806204103945275	build.ninja	91f765208aa10932
+1	11	1725806204118795086	/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/cmake.verify_globs	df6622cdc3a1c6d1
+13	1161	1725806204130872556	CMakeFiles/crossroads.dir/app/main.cpp.o	da502e1f6d8de170
+1163	1252	1725806205280145611	crossroads	a53e2ad7092aaa71
+1	9	1725806208351640254	/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/cmake.verify_globs	df6622cdc3a1c6d1

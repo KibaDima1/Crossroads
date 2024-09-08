@@ -1,0 +1,6 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -DCMAKE_TOOLCHAIN_FILE=/Users/dmitriy/.vcpkg-clion/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -S /Users/dmitriy/Desktop/test/сrossroads -B /Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug
+-- CMAKE_SOURCE_DIR: /Users/dmitriy/Desktop/test/сrossroads
+-- CMAKE_SOURCE_DIR: /Users/dmitriy/Desktop/test/сrossroads
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug

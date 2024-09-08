@@ -1,0 +1,3 @@
+/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/crossroads.dir
+/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/dmitriy/Desktop/test/сrossroads/cmake-build-debug/CMakeFiles/rebuild_cache.dir
