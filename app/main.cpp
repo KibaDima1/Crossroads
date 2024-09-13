@@ -1,9 +1,6 @@
-
-#include <iostream>
 #include <atomic>
 
 #include "TrafficLight/TrafficLightFactory.h"
-
 
 std::atomic<bool> isRunning{true};
 
