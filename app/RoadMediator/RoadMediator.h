@@ -6,74 +6,56 @@
 #include <ranges>
 
 #include "IRoadMediator.h"
-#include "TrafficLight/TrafficLightBase.h"
-
+#include "TrafficLight/TrafficLight.h"
 
 namespace rm {
     class RoadMediator final : public IRoadMediator {
     private:
-        static constexpr std::size_t kPoolSize = 10;
+        static constexpr std::size_t kPoolSize = 3;
 
     private:
+        std::vector<tl::TrafficLightUniquePtr> trafficLights;
         boost::asio::thread_pool pool;
-        std::vector<tl::TrafficLightSharedPtr> trafficLights;
 
     public:
         RoadMediator() noexcept: pool(kPoolSize) {}
 
-        ErrorCode::Status addRoadTrafficLight(tl::TrafficLightSharedPtr trafficLight) noexcept {
+        void addRoadTrafficLight(tl::TrafficLightUniquePtr&& trafficLight) noexcept {
             if (trafficLight == nullptr) {
-                return newError(ROAD_TRAFFIC_LIGHT_NULLPTR);
+                // return newError(ROAD_TRAFFIC_LIGHT_NULLPTR);
+                return;
             }
             // Добавить проверку на то, что светофор уже существует
-            trafficLights.emplace_back(trafficLight);
-            return {};
+            trafficLights.push_back(std::move(trafficLight));
+            // return {};
         }
 
-        ErrorCode::Status sendEvent(tl::TrafficLightEvent event) noexcept override {
+        void sendEvent(tl::TrafficLightEvent event) noexcept override {
             boost::asio::post(pool, [this, event] {
                 handleTrafficLightEvent(event);
             });
-            return {};
         }
 
-        tl::TrafficLightState requestTrafficLightState(tl::Id id) noexcept override {
-            const auto& it = std::ranges::find_if(
-                    trafficLights,
-                    [&id](const tl::TrafficLightSharedPtr& trafficLight) {
-                return trafficLight->getId() == id;
-            });
+        [[nodiscard]] const std::vector<tl::TrafficLightUniquePtr>& getTrafficLights() const noexcept override {
+            return trafficLights;
+        }
 
-            if (it == trafficLights.end()) {
-                // LOG
-                return {};
+        void printStatu() {
+            for (auto& trafficLight : trafficLights) {
+                std::cout << trafficLight->getId() << std::endl;
+                std::cout << "trafficLight->getQuery()" << trafficLight->getQuery() << std::endl;
+                std::cout << "trafficLight->getRoadType()" << static_cast<int>(trafficLight->getRoadType()) << std::endl;
+                std::cout << "trafficLight->getTrafficLightType()" << static_cast<int>(trafficLight->getTrafficLightType()) << std::endl;
             }
-            if (it->get()->getId() == id) {
-                // LOG
-                return {};
-            }
-
-            return it->get()->getTrafficLightState();
         }
 
     private:
         void handleTrafficLightEvent(tl::TrafficLightEvent event) noexcept {
-            const auto& it = std::ranges::find_if(
-                    trafficLights,
-                    [&event](const tl::TrafficLightSharedPtr& trafficLight) {
-                return trafficLight->getId() == event.receiverId;
-            });
-
-            if (it == trafficLights.end()) {
-                // LOG
-                return;
+            for (auto& trafficLight : trafficLights) {
+                if (trafficLight->getRoadType() != event.roadwayType) {
+                    BOOST_VERIFY_MSG(trafficLight->receiveEvent(event), "can't send message");
+                }
             }
-            if (it->get()->getId() == event.senderId) {
-                // LOG
-                return;
-            }
-
-            BOOST_VERIFY_MSG(it->get()->receiveEvent(event), "can't send message");
         }
     };
 }

@@ -1,17 +1,13 @@
 
 #include <iostream>
-#include <unistd.h>
+#include <atomic>
 
-#include "TrafficLight/ITrafficLight.h"
-#include "RoadMediator/RoadMediator.h"
+#include "TrafficLight/TrafficLightFactory.h"
 
 
-#include "ErrorCode/ErrorCode.h"
-
-bool isRunning = true;
+std::atomic<bool> isRunning{true};
 
 void processInput() {
-    // Симулируем нажатие клавиши выхода
     char input;
     std::cin >> input;
     if (input == 'q') {
@@ -20,6 +16,20 @@ void processInput() {
 }
 
 int main() {
+    rm::RoadMediator roadMediator;
+    rm::RoadMediatorSharedPtr roadMediatorPtr(&roadMediator);
+
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::TWO, roadMediatorPtr));
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::TWO, roadMediatorPtr));
+
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::PEDESTRIAN, roadMediatorPtr));
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::PEDESTRIAN, roadMediatorPtr));
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::PEDESTRIAN, roadMediatorPtr));
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::PEDESTRIAN, roadMediatorPtr));
+
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::ONE, roadMediatorPtr));
+    roadMediator.addRoadTrafficLight(tl::TrafficLightFactory::make(tl::RoadwayType::ONE, roadMediatorPtr));
+
     while (isRunning) {
         processInput();
     }
